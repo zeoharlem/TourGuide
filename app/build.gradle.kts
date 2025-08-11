@@ -50,7 +50,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    api(project(":ztourguide"))
+    //api(project(":ztourguide"))
+
+    implementation(libs.tourguide)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
