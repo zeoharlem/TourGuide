@@ -180,11 +180,16 @@ if (showZeoTourGuide) {
 - ZtourGuidePlayManager: manages the ZtourGuideStep
 - ZtourGuideOverlayPlayer: renders the ztourguide
 
+## Note
+#### Add enableEdgeToEdge() for android 15+
+```kotlin
+enableEdgeToEdge()
+```
 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
-to discuss what you would like to change.
+to discuss what you would like to change. kindly star and fork at will
 
 ## License
 
