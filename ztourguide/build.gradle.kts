@@ -51,3 +51,15 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            afterEvaluate {
+                from(components["release"])
+                groupId = "com.zeoharlem.ztourguide"
+                artifactId = "ztourguide"
+                version = "1.0.0-alpha"
+            }
+        }
+    }
+}
