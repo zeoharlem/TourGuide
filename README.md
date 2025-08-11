@@ -16,6 +16,19 @@ dependencies {
 }
 ```
 
+Add to your settings.gradle.kts
+
+``` kotlin
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") } 👈
+    }
+}
+```
+
 ## Usage
 
 ```kotlin
@@ -151,7 +164,7 @@ if (showZeoTourGuide) {
     ZtourGuideOverlayPlayer(
         manager = manager,
         targetCoordinates = targetRect,
-        ztourGuideConfig = ztourGuideConfig,
+        ztourGuideConfig = ztourGuideConfig,//👈
         onDismiss = { showZeoTourGuide = false }
     ) {
         showZeoTourGuide = false
