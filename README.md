@@ -6,7 +6,7 @@ Guide your users step-by-step with overlay and tooltips.
 ![Demo](assets/screenshots.gif)
 
 ## Installation
-
+[![](https://jitpack.io/v/zeoharlem/TourGuide.svg)](https://jitpack.io/#zeoharlem/TourGuide)
 Add to your dependencies in build.gradle.kts at the app level
 
 ```bash
