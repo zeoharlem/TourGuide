@@ -22,4 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TourGuide"
 include(":app")
-//include(":ztourguide")
+include(":ztourguide")
