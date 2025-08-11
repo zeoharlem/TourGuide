@@ -69,9 +69,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
                                 .padding(innerPadding),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                           /* -- this button displays the tour guide should it gets to the end. 
+                           /*-- this button displays the tour guide should it gets to the end. 
                            the button component was never wrapped with ZtourGuideWrapper and 
-                           it's used to change the status of the showZeoTourGuide for example sake   --- */
+                           it's used to change the status of the showZeoTourGuide for this use case 
+                           --- */
                             Button({
                                 showZeoTourGuide = true
                             }) { Text(text = "Display") }
@@ -123,6 +124,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ```
 ## ZtourGuide Configuration [optional]
+#### with this configuration, you overwrite the default UIs for each component
 
 ```kotlin
 val ztourGuideConfig = ZtourGuideConfig(
@@ -141,10 +143,26 @@ val ztourGuideConfig = ZtourGuideConfig(
 )
 ```
 
+### if the zTourGuide is configured, you will pass it in like this
+```kotlin
+//........... initial here .......//
+if (showZeoTourGuide) {
+    //ZtourGuideOverlayPlayer displays the tour guide
+    ZtourGuideOverlayPlayer(
+        manager = manager,
+        targetCoordinates = targetRect,
+        ztourGuideConfig = ztourGuideConfig,
+        onDismiss = { showZeoTourGuide = false }
+    ) {
+        showZeoTourGuide = false
+    }
+}
+```
+
 ## ZtourGuide Components
 
 - ZTourGuideStep: tour guide object property with unique keys
-- ZtourGuideWrapper: target component wrapper
+- ZtourGuideWrapper: target component wrapper. it's uses the keys in ZTourGuideStep
 - ZtourGuideConfig: used to configure display/ui components
 - ZtourGuidePlayManager: manages the ZtourGuideStep
 - ZtourGuideOverlayPlayer: renders the ztourguide
