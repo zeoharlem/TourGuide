@@ -36,21 +36,21 @@ dependencyResolutionManagement {
 
 //set the list of steps you want to target
 val zTourGuideSteps = listOf(
-        ZTourGuideStep(
+    /* ⭕️ */ZTourGuideStep(
             "player1",
             DisplayProperty(
                 title = "Title 1",
                 subTitle = "Subtitle 1",
             )
         ),
-        ZTourGuideStep(
+    /* ⭕️ */ZTourGuideStep(
             "player2",
             DisplayProperty(
                 title = "Title 2",
                 subTitle = "Subtitle 2",
             )
         ),
-        ZTourGuideStep(
+    /* ⭕️ */ZTourGuideStep(
             "player3",
             DisplayProperty(
                 title = "Title 3",
@@ -60,7 +60,9 @@ val zTourGuideSteps = listOf(
             }
         ),
     )
+```
 
+```kotlin
 //MainActivity or any parent component
 override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +74,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
                 }
 
                 val positions = remember { mutableStateMapOf<String, Rect>() }
-                val manager = remember { ZtourGuidePlayManager(zTourGuideSteps) }
+                val manager = remember { /* ⭕️ */ ZtourGuidePlayManager(zTourGuideSteps) }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.fillMaxSize()) {
@@ -91,12 +93,12 @@ override fun onCreate(savedInstanceState: Bundle?) {
                             }) { Text(text = "Display") }
                             /*---- ends ---*/
                             
-                            /* ZtourGuideWrapper is the container for the target component */
-                            ZtourGuideWrapper("player1", positionMap = positions) {
+                            /* 👉👇ZtourGuideWrapper is the container for the target component */
+                            /* ⭕️ */ ZtourGuideWrapper("player1", positionMap = positions) {
                                 Button({}) { Text(text = "Click 1") }
                             }
 
-                            ZtourGuideWrapper("player2", positionMap = positions) {
+                            /* ⭕️ */ ZtourGuideWrapper("player2", positionMap = positions) {
                                 Button({}) { Text(text = "Click 2") }
                             }
                         }
@@ -107,7 +109,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
                                 .align(Alignment.Center)
                         ) {
 
-                            ZtourGuideWrapper("player3", positionMap = positions) {
+                            /* ⭕️ */ ZtourGuideWrapper("player3", positionMap = positions) {
                                 Badge(
                                     modifier = Modifier.padding(10.dp),
                                     containerColor = Color.Red,
@@ -120,8 +122,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
                         val targetRect = positions[manager.currentTourStep?.targetKey]
 
                         if (showZeoTourGuide) {
-                            //ZtourGuideOverlayPlayer displays the tour guide
-                            ZtourGuideOverlayPlayer(
+                            // 👉👇ZtourGuideOverlayPlayer displays the tour guide
+                            /* ⭕️ */ ZtourGuideOverlayPlayer(
                                 manager = manager,
                                 targetCoordinates = targetRect,
                                 onDismiss = { showZeoTourGuide = false }
@@ -140,7 +142,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 #### with this configuration, you overwrite the default UIs for each component
 
 ```kotlin
-val ztourGuideConfig = ZtourGuideConfig(
+val ztourGuideConfig = /* ⭕️ */ ZtourGuideConfig(
     titleText = { Text(it, fontWeight = Bold) },
     descriptionText = { Text(it, fontSize = 12.sp) },
     showPrevBtn = false,
@@ -160,8 +162,8 @@ val ztourGuideConfig = ZtourGuideConfig(
 ```kotlin
 //........... initial here .......//
 if (showZeoTourGuide) {
-    //ZtourGuideOverlayPlayer displays the tour guide
-    ZtourGuideOverlayPlayer(
+    //👉👇ZtourGuideOverlayPlayer displays the tour guide
+    /* ⭕️ */ ZtourGuideOverlayPlayer(
         manager = manager,
         targetCoordinates = targetRect,
         ztourGuideConfig = ztourGuideConfig,//👈
@@ -175,7 +177,7 @@ if (showZeoTourGuide) {
 ## ZtourGuide Components
 
 - ZTourGuideStep: tour guide object property with unique keys
-- ZtourGuideWrapper: target component wrapper. it's uses the keys in ZTourGuideStep
+- ZtourGuideWrapper: target component wrapper. it uses the keys in ZTourGuideStep to target listed steps
 - ZtourGuideConfig: used to configure display/ui components
 - ZtourGuidePlayManager: manages the ZtourGuideStep
 - ZtourGuideOverlayPlayer: renders the ztourguide
