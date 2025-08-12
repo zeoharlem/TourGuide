@@ -28,6 +28,7 @@ import com.zeoharlem.ztourguide.models.ZtourGuideConfig
 fun ZtourGuideOverlayPlayer(
     manager: ZtourGuidePlayManager,
     targetCoordinates: Rect?,
+    additionalCountIndicator: @Composable ((String) -> Unit)? = null,
     ztourGuideConfig: ZtourGuideConfig = ZtourGuideConfig(),
     onDismiss: () -> Unit = {},
     onFinish: () -> Unit
@@ -93,6 +94,10 @@ fun ZtourGuideOverlayPlayer(
                 targetRect = targetCoordinates,
                 targetRadius = targetRadius ?: 0f,
                 displayAlignment = displayAlignment,
+                countIndicator = {
+                    val indicator = "${manager.getCurrentStep()} of ${manager.getTotalSteps()}"
+                    additionalCountIndicator?.invoke(indicator)
+                },
                 ztourGuideConfig = ztourGuideConfig.copy(
                     nextBtnText = if (manager.isLastStep()) "Finish" else "Next"
                 ),

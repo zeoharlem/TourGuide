@@ -59,6 +59,7 @@ class MainActivity : ComponentActivity() {
             DisplayProperty(
                 title = "Title 3",
                 subTitle = "Subtitle 3",
+                displayShape = DisplayProperty.UsedShape.RECTANGLE
             )
         ),
 
@@ -202,6 +203,7 @@ class MainActivity : ComponentActivity() {
                             ZtourGuideOverlayPlayer(
                                 manager = manager,
                                 targetCoordinates = targetRect,
+                                additionalCountIndicator = { Text("Step $it", fontSize = 13.sp) },
                                 ztourGuideConfig = ztourGuideConfig,
                                 onDismiss = { showZeoTourGuide = false }
                             ) {
