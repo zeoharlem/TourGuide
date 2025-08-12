@@ -14,8 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults.cardColors
@@ -50,6 +48,7 @@ internal fun ZTourGuideShowCardHolder(
     targetRect: Rect,
     targetRadius: Float,
     displayAlignment: Alignment.Vertical,
+    countIndicator: @Composable (()-> Unit)? = null,
     updateCoordinates: ((LayoutCoordinates) -> Unit)? = null,
     onDismissEvent: (() -> Unit)? = null,
     ztourGuideConfig: ZtourGuideConfig = ZtourGuideConfig(),
@@ -63,6 +62,7 @@ internal fun ZTourGuideShowCardHolder(
         targetRect = targetRect,
         targetRadius = targetRadius,
         displayAlignment = displayAlignment,
+        countIndicator = countIndicator,
         updateCoordinates = updateCoordinates,
         onDismissEvent = onDismissEvent,
         ztourGuideConfig = ztourGuideConfig,
@@ -78,6 +78,7 @@ private fun ZTourGuideCardHolderContent(
     targetRect: Rect,
     targetRadius: Float,
     displayAlignment: Alignment.Vertical,
+    countIndicator: @Composable (()-> Unit)? = null,
     updateCoordinates: ((LayoutCoordinates) -> Unit)? = null,
     ztourGuideConfig: ZtourGuideConfig = ZtourGuideConfig(),
     onDismissEvent: (() -> Unit)? = null,
@@ -104,6 +105,8 @@ private fun ZTourGuideCardHolderContent(
         },
         arrowDirection = getArrowAlignment
     )
+
+    val cardBgColor = ztourGuideConfig.cardColors?.invoke()?.containerColor ?: Color.White
 
     Column(
         modifier = Modifier
@@ -133,7 +136,7 @@ private fun ZTourGuideCardHolderContent(
                     targetRect.center.x.toDp() - 15.dp
                 }.minus(altDisplayProperty.offsetPadding))
         ) {
-            ArrowPointer(altDisplayProperty.arrowDirection)
+            ArrowPointer(altDisplayProperty.arrowDirection, cardBgColor)
         }
 
         Card(
@@ -173,10 +176,11 @@ private fun ZTourGuideCardHolderContent(
                         ?: Text(displayProperty.subTitle)
 
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         if(ztourGuideConfig.showPrevBtn) {
-                            Button(onClick = { onClickPreviousBtn?.invoke() }) {
+                            ztourGuideConfig.prevBtn?.invoke() ?: Button(onClick = { onClickPreviousBtn?.invoke() }) {
                                 Text(text = ztourGuideConfig.prevBtnText)
                             }
                         }
@@ -188,7 +192,18 @@ private fun ZTourGuideCardHolderContent(
                         }
 
                         if(ztourGuideConfig.showResetBtn) {
-                            Button(onClick = onResetEvent) { Text(text = ztourGuideConfig.resetBtnText) }
+                            ztourGuideConfig.resetBtn?.invoke() ?: Button(onClick = onResetEvent) {
+                                Text(text = ztourGuideConfig.resetBtnText)
+                            }
+                        }
+
+                        countIndicator?.let { countInfo ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth().weight(1f),
+                                horizontalArrangement = Arrangement.Absolute.Right,
+                            ) {
+                                countInfo.invoke()
+                            }
                         }
                     }
                 }
@@ -204,18 +219,18 @@ private fun ZTourGuideCardHolderContent(
                     targetRect.center.x.toDp() - 15.dp
                 }, y = -(2.dp))
         ) {
-            ArrowPointer(altDisplayProperty.arrowDirection)
+            ArrowPointer(altDisplayProperty.arrowDirection, cardBgColor)
         }
     }
 }
 
 @Composable
-private fun ArrowPointer(direction: Direction) {
+private fun ArrowPointer(direction: Direction, color: Color = Color.White) {
     Box(
         modifier = Modifier
             .width(20.dp)
             .height(18.dp)
             .clip(shape = CustomTriangle(direction))
-            .background(Color.White)
+            .background(color)
     )
 }
