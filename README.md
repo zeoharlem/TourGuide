@@ -139,7 +139,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ```
 ## ZtourGuide Configuration [optional]
-#### with this configuration, you overwrite the default UIs for each component
+#### with this configuration, you can customize the default component
 
 ```kotlin
 val ztourGuideConfig = /* ⭕️ */ ZtourGuideConfig(
