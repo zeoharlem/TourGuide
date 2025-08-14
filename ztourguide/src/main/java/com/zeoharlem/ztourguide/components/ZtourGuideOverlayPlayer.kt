@@ -17,8 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.zeoharlem.ztourguide.ZtourGuidePlayManager
 import com.zeoharlem.ztourguide.models.DisplayProperty
@@ -33,19 +31,10 @@ fun ZtourGuideOverlayPlayer(
     onDismiss: () -> Unit = {},
     onFinish: () -> Unit
 ) {
-    val mContext = LocalContext.current
-    val mDensity = LocalDensity.current
-
     val targetRadius = targetCoordinates?.maxDimension?.div(2f)?.plus(20f)
 
-    val heightOfScreenInPx = with(mDensity) {
-        mContext.resources.displayMetrics.heightPixels.toDp()
-    }
-
-    //val displayOnTop = (targetCoordinates?.bottom?.plus(100f) ?: 0f) < heightOfScreenInPx
-    //val displayBelow = targetCoordinates != null && (targetCoordinates.bottom.dp < heightOfScreenInPx / 2)
-    val displayOnTop =
-        targetCoordinates != null && (targetCoordinates.top.dp > heightOfScreenInPx / 2)
+    val (_, heightOfScreenInPx) = rememberScreenSizePx()
+    val displayOnTop = targetCoordinates != null && (targetCoordinates.top.dp > heightOfScreenInPx.dp / 2)
 
     val displayAlignment by remember(displayOnTop) {
         derivedStateOf {

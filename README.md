@@ -4,6 +4,8 @@ A sleek, customizable onboarding app tour guide & feature highlight library for 
 Guide your users step-by-step with overlay and tooltips.
 
 ![Demo](assets/screenshots.gif)
+#### Count Info
+![Demo](assets/screen_updated.png)
 
 ## Installation
 [![](https://jitpack.io/v/zeoharlem/TourGuide.svg)](https://jitpack.io/#zeoharlem/TourGuide)
@@ -160,12 +162,13 @@ val ztourGuideConfig = /* ⭕️ */ ZtourGuideConfig(
 
 ### if the zTourGuide is configured, you will pass it in like this
 ```kotlin
-//........... initial here .......//
+//........... initial code here .......//
 if (showZeoTourGuide) {
     //👉👇ZtourGuideOverlayPlayer displays the tour guide
     /* ⭕️ */ ZtourGuideOverlayPlayer(
         manager = manager,
         targetCoordinates = targetRect,
+        additionalCountIndicator = { Text("Step $it", fontSize = 13.sp) },
         ztourGuideConfig = ztourGuideConfig,//👈
         onDismiss = { showZeoTourGuide = false }
     ) {

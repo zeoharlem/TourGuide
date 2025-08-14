@@ -12,7 +12,7 @@ class ZtourGuidePlayManager(private val listTourGuides: List<ZTourGuideStep>) {
     val currentTourStep get() = listTourGuides.getOrNull(currentStepPosition)
 
     fun nextStep() {
-        currentTourStep?.onNextEvent?.invoke()
+        currentTourStep?.onNextClick?.invoke()
         if(currentStepPosition < listTourGuides.size - 1) {
             currentStepPosition++
         }
@@ -22,6 +22,11 @@ class ZtourGuidePlayManager(private val listTourGuides: List<ZTourGuideStep>) {
         if(currentStepPosition > 0) {
             currentStepPosition--
         }
+    }
+
+    fun finishStep() {
+        reset()
+        currentTourStep?.onFinishClick?.invoke()
     }
 
     fun isFirstStep() = currentStepPosition == 0
