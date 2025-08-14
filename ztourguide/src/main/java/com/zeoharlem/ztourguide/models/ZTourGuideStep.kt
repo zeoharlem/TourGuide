@@ -10,13 +10,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 /**
  * @property targetKey The key of the target component to be highlighted.
  * @property displayProperty The object containing the property to be displayed for the target component.
- * @property onNextEvent The event to be triggered when the next button is clicked.
+ * @property onNextClick The event to be triggered when the next button is clicked.
  * @sample com.zeoharlem.ztourguide.samples.CreateZtourGuideStepConfigExample
  */
 data class ZTourGuideStep(
     val targetKey: String,
     val displayProperty: DisplayProperty? = null,
-    val onNextEvent: (() -> Unit)? = null
+    val onNextClick: (() -> Unit)? = null,
+    val onFinishClick: (() -> Unit)? = null
 )
 
 /**

@@ -1,4 +1,10 @@
 # Change log
+## version 1.0.2 | 2025-07-15
+### Added
+- onFinish Listener
+### Fixed
+- tour guide card positioning on landscape(config changes)
+
 ## version 1.0.1 | 2025-07-13
 ### Added
 - Count Indicator

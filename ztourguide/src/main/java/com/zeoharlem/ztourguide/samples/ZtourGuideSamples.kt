@@ -1,11 +1,9 @@
 package com.zeoharlem.ztourguide.samples
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -106,8 +104,8 @@ fun CreateZtourGuideStepConfigExample() {
             DisplayProperty(
                 title = "Title 8",
                 subTitle = "Subtitle 8",
-            ), onNextEvent = {
-                println("Possible last guide. do something here")
+            ), onNextClick = {
+                println("Do something")
             }
         ),
     )

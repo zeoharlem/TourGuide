@@ -101,10 +101,18 @@ class MainActivity : ComponentActivity() {
             DisplayProperty(
                 title = "Title 8",
                 subTitle = "Subtitle 8",
-            ), onNextEvent = {
-                println("Possible last guide. do something here")
-            }
+            )
         ),
+
+        ZTourGuideStep(
+            "useAnyKey",
+            DisplayProperty(
+                title = "Title 9",
+                subTitle = "Subtitle 9",
+            )
+        ){
+            println("Possible last guide. do something here")
+        },
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -173,10 +181,14 @@ class MainActivity : ComponentActivity() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .align(Alignment.BottomCenter)
+                                .align(Alignment.BottomCenter),
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             ZtourGuideWrapper("player7", positionMap = positions) {
                                 Button({}) { Text(text = "Click 7") }
+                            }
+                            ZtourGuideWrapper("useAnyKey", positionMap = positions) {
+                                Button({}) { Text(text = "Click 9") }
                             }
                         }
 
@@ -188,7 +200,10 @@ class MainActivity : ComponentActivity() {
                             nextBtn = {
                                 Button(
                                     onClick = {
-                                        if (manager.isLastStep()) showZeoTourGuide = false
+                                        if (manager.isLastStep()) {
+                                            showZeoTourGuide = false
+                                            manager.finishStep()
+                                        }
                                         else manager.nextStep()
                                     },
                                     colors = buttonColors(containerColor = Color.Black)

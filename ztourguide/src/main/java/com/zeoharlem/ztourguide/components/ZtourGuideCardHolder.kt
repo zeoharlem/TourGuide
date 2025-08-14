@@ -34,6 +34,7 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.LayoutCoordinates
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -86,6 +87,7 @@ private fun ZTourGuideCardHolderContent(
     onResetEvent: () -> Unit,
     onClickNextBtn: () -> Unit
 ) {
+    val mDensity = LocalDensity.current
     var offsetY by remember { mutableFloatStateOf(0f) }
 
     val getArrowAlignment by remember(displayAlignment) {
@@ -99,12 +101,27 @@ private fun ZTourGuideCardHolderContent(
 
     val altDisplayProperty = displayProperty.copy(
         offsetPadding = when (displayAlignment) {
-            Alignment.Top -> 65.dp
-            //Alignment.Bottom -> 0.dp
+            Alignment.Top -> 50.dp
             else -> 0.dp
         },
         arrowDirection = getArrowAlignment
     )
+
+    val targetItemIsAtStart = targetRect.topLeft.x <= 0
+    //val targetItemIsAtEnd = (targetRect.topRight.x + targetRect.width) >= screenWidth * 0.9f
+
+    val targetAdjustment by remember(targetRect) {
+        derivedStateOf {
+            when {
+                targetItemIsAtStart -> with(mDensity) {
+                    targetRect.center.x.toDp()
+                }
+                else -> with(mDensity) {
+                    targetRect.center.x.toDp() - 15.dp
+                }
+            }
+        }
+    }
 
     val cardBgColor = ztourGuideConfig.cardColors?.invoke()?.containerColor ?: Color.White
 
@@ -121,7 +138,7 @@ private fun ZTourGuideCardHolderContent(
                     else -> targetRect.center.y + targetRadius + altDisplayProperty.arrowPaddingToTargetItem
                 }
             }
-            .offset(y = with(LocalDensity.current) {
+            .offset(y = with(mDensity) {
                 offsetY.toDp().minus(altDisplayProperty.offsetPadding)
             })
     ) {
@@ -132,9 +149,7 @@ private fun ZTourGuideCardHolderContent(
                 .wrapContentSize()
                 .zIndex(2f)
                 .alpha(if (altDisplayProperty.pointerDisplayTop) 1f else 0f)
-                .offset(x = with(LocalDensity.current) {
-                    targetRect.center.x.toDp() - 15.dp
-                }.minus(altDisplayProperty.offsetPadding))
+                .offset(x = targetAdjustment)
         ) {
             ArrowPointer(altDisplayProperty.arrowDirection, cardBgColor)
         }
@@ -199,7 +214,9 @@ private fun ZTourGuideCardHolderContent(
 
                         countIndicator?.let { countInfo ->
                             Row(
-                                modifier = Modifier.fillMaxWidth().weight(1f),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
                                 horizontalArrangement = Arrangement.Absolute.Right,
                             ) {
                                 countInfo.invoke()
@@ -215,9 +232,7 @@ private fun ZTourGuideCardHolderContent(
                 .wrapContentSize()
                 .zIndex(2f)
                 .alpha(if (altDisplayProperty.pointerDisplayTop) 0f else 1f)
-                .offset(x = with(LocalDensity.current) {
-                    targetRect.center.x.toDp() - 15.dp
-                }, y = -(2.dp))
+                .offset(x = targetAdjustment, y = -(2.dp))
         ) {
             ArrowPointer(altDisplayProperty.arrowDirection, cardBgColor)
         }
@@ -233,4 +248,14 @@ private fun ArrowPointer(direction: Direction, color: Color = Color.White) {
             .clip(shape = CustomTriangle(direction))
             .background(color)
     )
+}
+
+@Composable
+internal fun rememberScreenSizePx(): Pair<Float, Float> {
+    val configuration = LocalConfiguration.current
+    return remember(configuration) {
+        val widthPx = configuration.screenWidthDp
+        val heightPx = configuration.screenHeightDp
+        widthPx.toFloat() to heightPx.toFloat()
+    }
 }
