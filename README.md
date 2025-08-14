@@ -3,9 +3,9 @@
 A sleek, customizable onboarding app tour guide & feature highlight library for modern Android apps.
 Guide your users step-by-step with overlay and tooltips.
 
-![Demo](assets/screenshots.gif)
+![Demo](assets/screenshots.gif | width=400)
 #### Count Info
-![Demo](assets/screen_updated.png)
+![Demo](assets/screen_updated.png | width=400)
 
 ## Installation
 [![](https://jitpack.io/v/zeoharlem/TourGuide.svg)](https://jitpack.io/#zeoharlem/TourGuide)
